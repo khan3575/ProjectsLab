@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GNN Brain Tumor Detection - Registration</title>
+  <!-- Link the merged style.css -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+   <!-- header <include file="header.html"> -->
+  <header>
+    <div class="header-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.svg" alt="GNN Brain Tumor Detection Logo">
+        </a>
+      </div>
+      <!-- Navigation Buttons -->
+      <nav>
+        <ul class="nav-buttons">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="scan.html">Scan</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Registration Section with Dynamic Background -->
+  <section class="registration-section">
+    <div class="registration-container fade-in-up">
+      <h2>Create Your Account</h2>
+      <form action="#" method="post">
+        <!-- Row 1: First & Last Name -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input 
+              type="text" 
+              id="first_name" 
+              name="first_name" 
+              placeholder="Your first name" 
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input 
+              type="text" 
+              id="last_name" 
+              name="last_name" 
+              placeholder="Your last name" 
+              required
+            >
+          </div>
+        </div>
+        <!-- Row 2: Phone & Email -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              placeholder="Your phone number" 
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Your email address" 
+              required
+            >
+          </div>
+        </div>
+        <!-- Row 3: National ID & Birthday -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="national_id">National ID</label>
+            <input 
+              type="text" 
+              id="national_id" 
+              name="national_id" 
+              placeholder="Your national ID" 
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="birthday">Birthday</label>
+            <input 
+              type="date" 
+              id="birthday" 
+              name="birthday" 
+              required
+            >
+          </div>
+        </div>
+        <!-- Row 4: Address (full width) -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="address">Address</label>
+            <textarea 
+              id="address" 
+              name="address" 
+              placeholder="Your address" 
+              required
+            ></textarea>
+          </div>
+        </div>
+        <!-- Row 5: Password & Confirm Password -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Create a password" 
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input 
+              type="password" 
+              id="confirm_password" 
+              name="confirm_password" 
+              placeholder="Confirm your password" 
+              required
+            >
+          </div>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="cta-button">Register</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Optional: Additional JavaScript for real-time validation or effects -->
+  <script>
+    // Example: You can add interactivity or real-time validation here.
+  </script>
+</body>
+</html>

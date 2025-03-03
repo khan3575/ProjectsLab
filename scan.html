@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GNN Brain Tumor Detection - Scan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.svg" alt="GNN Brain Tumor Detection Logo">
+        </a>
+      </div>
+      <!-- Navigation Buttons -->
+      <nav>
+        <ul class="nav-buttons">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="scan.html" class="active">Scan</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MRI Scan Section -->
+  <section class="scan-section">
+    <div class="scan-container fade-in-up">
+      <h2>Analyze Your MRI</h2>
+      <p>Upload your MRI image below. Our system will run a GNN-based analysis to detect potential brain tumors.</p>
+      
+      <form action="#" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="mri_image">MRI Image:</label>
+          <input 
+            type="file" 
+            id="mri_image" 
+            name="mri_image" 
+            accept="image/*" 
+            required
+          >
+        </div>
+        <button type="submit" class="cta-button">Analyze MRI</button>
+      </form>
+
+      <!-- Result Container (placeholder for now) -->
+      <div class="result-container fade-in" id="analysis-result">
+        <h3>Analysis Result</h3>
+        <p>Your MRI analysis results will appear here once processed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Optional: JavaScript for dynamic loading of results -->
+  <script>
+    // You could add code here to handle file upload and display results dynamically.
+    // For now, it's just a placeholder.
+  </script>
+</body>
+</html>

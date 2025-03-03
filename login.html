@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GNN Brain Tumor Detection - Login</title>
+  <!-- Link your merged style.css -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header (Reuse your header fragment or copy the same code) -->
+  <header>
+    <div class="header-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.svg" alt="GNN Brain Tumor Detection Logo" />
+        </a>
+      </div>
+      <!-- Navigation Buttons -->
+      <nav>
+        <ul class="nav-buttons">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="scan.html">Scan</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <section class="login-section">
+    <div class="login-container fade-in-up">
+      <h2>Login to Your Account</h2>
+      <p>Enter your credentials below to access the GNN Brain Tumor Detection dashboard.</p>
+
+      <form action="#" method="post">
+        <div class="form-group">
+          <label for="login_email">Email Address</label>
+          <input
+            type="email"
+            id="login_email"
+            name="login_email"
+            placeholder="Your email address"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="login_password">Password</label>
+          <input
+            type="password"
+            id="login_password"
+            name="login_password"
+            placeholder="Your password"
+            required
+          />
+        </div>
+        <!-- Optional: Remember Me & Forgot Password -->
+        <div class="form-row">
+          <div class="form-group">
+            <input type="checkbox" id="remember_me" name="remember_me" />
+            <label for="remember_me">Remember Me</label>
+          </div>
+          <div class="form-group forgot-password">
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+        </div>
+        <button type="submit" class="cta-button">Login</button>
+      </form>
+
+      <!-- Optional: Link to Registration Page -->
+      <div class="register-link">
+        <p>Don't have an account? <a href="registration.html">Register Now</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Optional: Additional JavaScript for form handling -->
+  <script>
+    // You can add client-side validation or other interactive scripts here
+  </script>
+</body>
+</html>

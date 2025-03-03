@@ -1,0 +1,442 @@
+/* ------------------------- */
+/*        GLOBAL RESET       */
+/* ------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* ------------------------- */
+  /*         BODY STYLES       */
+  /* ------------------------- */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* ------------------------- */
+  /*        HEADER STYLES      */
+  /* ------------------------- */
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #35424a;
+    padding: 10px 20px;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .nav-buttons {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-buttons li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .nav-buttons li a:hover {
+    background-color: #1f2a33;
+  }
+  
+  /* ------------------------- */
+  /*       HERO (HOMEPAGE)     */
+  /* ------------------------- */
+  /* Reuse if you have a hero section on your index.html */
+  .hero {
+    position: relative;
+    height: 80vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    animation: moveBackground 20s linear infinite;
+  }
+  
+  @keyframes moveBackground {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(20%, 20%) rotate(360deg); }
+  }
+  
+  .hero-overlay {
+    position: relative;
+    text-align: center;
+    color: #fff;
+    z-index: 1;
+    animation: fadeIn 1.5s ease-out;
+  }
+  
+  .hero-title {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+  }
+  
+  .cta-button {
+    background-color: #ffffff;
+    color: #35424a;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #e2e2e2;
+    transform: scale(1.05);
+  }
+  
+  /* ------------------------- */
+  /*  DESCRIPTION (HOMEPAGE)   */
+  /* ------------------------- */
+  .description {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .description article {
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+  
+  /* ------------------------- */
+  /*     REGISTRATION PAGE     */
+  /* ------------------------- */
+  .registration-section {
+    min-height: 100vh; /* Full viewport height */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .registration-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+    animation: rotateBackground 25s linear infinite;
+    z-index: 1;
+  }
+  
+  @keyframes rotateBackground {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .registration-container {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    /* Fade-in-up animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+  
+  .registration-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Rows */
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    flex: 1 0 100%;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  /* Registration Button */
+  .cta-button {
+    display: inline-block;
+    width: 100%;
+    background-color: #35424a;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px;
+  }
+  
+  .cta-button:hover {
+    background-color: #1f2a33;
+    transform: scale(1.03);
+  }
+  
+  /* ------------------------- */
+  /*     ANIMATION UTILS       */
+  /* ------------------------- */
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+  
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+  
+  /* ------------------------- */
+  /*         FOOTER STYLES     */
+  /* ------------------------- */
+  footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #35424a;
+    color: #ffffff;
+    margin-top: 20px;
+  }
+  
+
+  /* ---------------------------------------- */
+/*   SCAN SECTION (Similar to Registration) */
+/* ---------------------------------------- */
+.scan-section {
+    min-height: 100vh; /* Full viewport height */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scan-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+    animation: rotateBackground 25s linear infinite;
+    z-index: 1;
+  }
+  
+  .scan-container {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    /* fadeInUp animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+  
+  .scan-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .scan-container p {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .result-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+/* -------------------------------- */
+/*    LOGIN SECTION (Similar Style) */
+/* -------------------------------- */
+.login-section {
+    min-height: 100vh; /* Full viewport height */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .login-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+    animation: rotateBackground 25s linear infinite;
+    z-index: 1;
+  }
+  
+  .login-container {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    /* Fade-in-up animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+    text-align: center; /* Center text by default */
+  }
+  
+  .login-container h2 {
+    margin-bottom: 10px;
+  }
+  
+  .login-container p {
+    margin-bottom: 20px;
+  }
+  
+  /* Form Groups & Layout */
+  .login-container .form-group {
+    margin-bottom: 15px;
+    text-align: left; /* Left-align labels & inputs */
+  }
+  
+  .login-container .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    display: block;
+  }
+  
+  .login-container .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+  
+  .form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .forgot-password {
+    text-align: right;
+  }
+  
+  .forgot-link {
+    color: #35424a;
+    text-decoration: none;
+    font-size: 0.9em;
+  }
+  
+  .forgot-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Register Link */
+  .register-link {
+    margin-top: 20px;
+  }
+  
+  .register-link a {
+    color: #35424a;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
