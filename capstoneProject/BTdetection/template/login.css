@@ -1,0 +1,56 @@
+.border{
+    background-color: blueviolet;
+    background: linear-gradient(to right, rgb(123, 0, 255) , rgb(130, 173, 205));
+    height: 100%;
+    width: 100%;
+    position:absolute;
+    
+    
+}
+.wrapper{
+    background-color:rgb(78, 146, 213);
+    height: 50%;
+    width: 50%;
+    position:absolute;
+    top:25%;
+    left:25%;
+    border-radius: 25px;
+    align-items: center;
+}
+.wrapper h1{
+    text-align: center;
+}
+.input_box input{
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px ;
+    margin: 10px;
+    font-size:16px;
+    display: block;
+    height: 20px;
+    width: 92%;
+}
+.wrapper button{
+    background-color: aquamarine;
+    height: 30px;
+    width: 94%;
+    padding:5px 5px;
+    border-radius:5px ;
+    border: none;
+    margin: 10px;
+    display: block;
+    font-size: 16px;
+}
+.wrapper button:hover{
+    background-color: blue;
+}
+.register{
+    text-align: center;
+}
+.register a {
+    text-decoration: none;
+    color:black;
+}
+.register a:hover{
+    color: blue;
+}
