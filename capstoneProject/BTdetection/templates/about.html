@@ -1,9 +1,10 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>About Us - GNN Tumor Detection</title>
-  <link rel="stylesheet" href="about.css">
+  <link rel="stylesheet" href="{% static 'css/about.css' %}">
 </head>
 
 <body>
@@ -17,13 +18,13 @@
     </p>
     <h2>Our Team</h2>
     <ul>
-      <li><strong>Sakib Khan</strong> – Developer, Research & Backend AI Integration</li>
-      <li><strong>Rifa Sanjida</strong> – Frontend UI/UX, Page Design</li>
-      <li><strong>Kishor Kumar Das</strong> – Frontend UI/UX, Page Design</li>
-      <li><strong>Md Mahmudul Hasan</strong> – Frontend UI/UX, Page Design</li>
-      <li><strong>Md Minhajur Rahman</strong> – Frontend UI/UX, Page Design</li>
+      <li><strong>Sakib Khan</strong> 21225103290</li>
+      <li><strong>Rifa Sanjida</strong> 21225103274</li>
+      <li><strong>Kishor Kumar Das</strong> 21225103295</li>
+      <li><strong>Md Mahmudul Hasan</strong> 21225103275</li>
+      <li><strong>Md Minhajur Rahman</strong> 21224103054</li>
     </ul>
-    <a href="#" class="link">← Back to Home</a>
+    <a href="{%url 'home'}" class="link">← Back to Home</a>
   </section>
 </body>
 </html>

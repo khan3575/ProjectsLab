@@ -1,0 +1,76 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GNN Brain Tumor Detection - Home</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+  <!-- Header Fragment -->
+  <header>
+    <div class="header-container">
+      <!-- Logo Section -->
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.svg" alt="GNN Brain Tumor Detection Logo">
+        </a>
+      </div>
+      <!-- Navigation Buttons -->
+      <nav>
+        <ul class="nav-buttons">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="scan.html">Scan</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero Section with Animated Background -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1 class="hero-title">GNN Brain Tumor Detection</h1>
+      <p class="hero-subtitle">Empowering Diagnosis with Advanced Graph Neural Networks</p>
+      <button class="cta-button" onclick="scrollToSection('about')">Learn More</button>
+    </div>
+  </section>
+  
+  <!-- About Section with Fade-In Animations -->
+  <section id="about" class="description">
+    <article class="fade-in">
+      <h2>What is a Graph Neural Network (GNN)?</h2>
+      <p>
+        Graph Neural Networks (GNNs) are a class of deep learning models that operate on graph-structured data.
+        They excel in capturing complex relationships between data points, making them ideal for tasks beyond traditional grid-like data.
+      </p>
+    </article>
+    <article class="fade-in delay-1">
+      <h2>Detecting Tumors Using MRI Scans</h2>
+      <p>
+        Our approach converts MRI scans into graph representations by treating key regions as nodes and their relationships as edges.
+        The GNN then identifies subtle patterns that may indicate the presence of brain tumors.
+      </p>
+      <ul>
+        <li>Preprocess MRI data to extract critical features</li>
+        <li>Construct a detailed graph of brain imaging data</li>
+        <li>Train the GNN to recognize tumor signatures</li>
+        <li>Continuously validate and improve model performance</li>
+      </ul>
+    </article>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
+  </footer>
+  
+  <!-- JavaScript for Smooth Scroll -->
+  <script>
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
