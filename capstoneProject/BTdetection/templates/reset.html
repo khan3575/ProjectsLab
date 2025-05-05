@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reset Password - GNN Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>Reset Your Password</h2>
+    {% if messages %}
+      {% for message in messages %}
+        <p class="message" style="color: {% if message.tags == 'error' %}red{% else %}#0f0{% endif %};">
+          {{ message }}
+        </p>
+      {% endfor %}
+    {% endif %}
+    <form method="POST">
+      {% csrf_token %}
+      <input type="password" name="password" placeholder="New Password" required />
+      <input type="password" name="confirm_password" placeholder="Confirm New Password" required />
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+</body>
+</html>

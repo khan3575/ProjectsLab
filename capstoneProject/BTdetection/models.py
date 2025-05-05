@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Address(models.Model):
     address = models.CharField(max_length=255)
@@ -26,3 +27,10 @@ class User(models.Model):
     def __str__(self):
         return self.username
     
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.token}"

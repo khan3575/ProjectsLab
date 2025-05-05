@@ -9,15 +9,21 @@
         <div class="border">
         <div class="wrapper">
             <h1>Login</h1>
-            <div class="input_box">
-                <input type="email"  placeholder="Email Address" required>
-            </div>
-            <div class="input_box">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <button type="button">login</button>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="input_box">
+                    <input type="email" name="email"  placeholder="Email Address" required>
+                </div>
+                <div class="input_box">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">login</button>
+            </form>
             <div class="register">
-                Don't have an account?<a href="registration">Register Now</a>
+                Don't have an account?<a href="{% url 'register' %}">Register Now</a>
+            </div>
+            <div class="register">
+                Forgot Password? <a href="{% url 'forgot_password' %}">Click Here</a>
             </div>
         </div>
     </div>

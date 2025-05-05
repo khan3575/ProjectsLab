@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
+    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .container {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid #444;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    width: 350px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 16px;
+    background: linear-gradient(45deg, #00f7ff, #5e00ff);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.3;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #00f7ff;
+  }
+  
+  input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: #eee;
+  }
+  
+  button {
+    background: linear-gradient(to right, #00f7ff, #5e00ff);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00f7ff;
+  }
+  
+  .message {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .back-link {
+    margin-top: 20px;
+    display: block;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .back-link:hover {
+    color: #00f7ff;
+  }
+  

@@ -11,44 +11,47 @@
     <div class="border">
         <div class="wrapper">
             <h1>Registration</h1>
-            <div class="input_box">
-                <input type="text" name="fname" placeholder="First Name" required>
-            </div>
-            <div class="input_box">
-                <input type="text" name="lname" placeholder="Last Name" required>
-            </div>
-            <div class="input_box">
-                <input type="date" name="bdate" placeholder="Birth Date" required>
-            </div>
-            <div class="input_box">
-                <input type="number" name="phone" placeholder="Phone Number" required>
-            </div>
-            <div class="input_box">
-                <input type="email" name="email" placeholder="Email Address" required>
-            </div>
-            <div class="input_box">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="input_box">
-                <input type="nid" name="nid_number" placeholder="Nid Number" required>
-            </div>
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="input_box">
+                    <input type="text" name="fname" placeholder="First Name" required>
+                </div>
+                <div class="input_box">
+                    <input type="text" name="lname" placeholder="Last Name" required>
+                </div>
+                <div class="input_box">
+                    <input type="date" name="bdate" placeholder="Birth Date" required>
+                </div>
+                <div class="input_box">
+                    <input type="number" name="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input_box">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="input_box">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="input_box">
+                    <input type="nid" name="nid" placeholder="Nid Number" required>
+                </div>
 
-            <div class="input_box">
-                <input type="text" name="city" placeholder="City" required>
-            </div>
-            <div class="input_box">
-                <input type="text" name="state" placeholder="Country" required>
-            </div>
-            <div class="input_box">
-                <input type="text" name="country" placeholder="Country" required>
-            </div>
-            <div class="input_box">
-                <input type="text" name="zip" placeholder="Zip Code" required>
-            </div>
-            <button type="button">Register</button>
+                <div class="input_box">
+                    <input type="text" name="city" placeholder="City" required>
+                </div>
+                <div class="input_box">
+                    <input type="text" name="state" placeholder="Country" required>
+                </div>
+                <div class="input_box">
+                    <input type="text" name="country" placeholder="Country" required>
+                </div>
+                <div class="input_box">
+                    <input type="text" name="zip" placeholder="Zip Code" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
             <div class="login">
-                Already have an account?<a href="login.html">Login</a>
-            </div>
+                Already have an account?<a href="{% url 'login' %}">Login</a>
+            </div>s
         </div>
     </div>
     

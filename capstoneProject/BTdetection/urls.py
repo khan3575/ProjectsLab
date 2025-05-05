@@ -9,5 +9,7 @@ urlpatterns = [
     path('upload/', views.upload , name='upload'),
     path('history/', views.history , name='history'),
     path('', views.home , name='home'),
+    path('forgot_password/', views.forgot_password , name='forgot_password'),
+    path('reset/<str:token>/', views.reset_password, name='reset-password'),
 
 ]
