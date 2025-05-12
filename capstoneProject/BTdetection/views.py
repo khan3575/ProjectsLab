@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from .models import Address, User, PasswordResetToken
@@ -127,12 +127,50 @@ def reset_password(request, token):
         if new_password != confirm_password:
             messages.error(request, "Passwords do not match!")
         else:
-            # Uncomment make_password() if you want to hash the new password.
-            user.password = new_password  # or use: make_password(new_password)
-            # Clear the token so it cannot be used again.
+            user.password = new_password  
             user.save()
             token_obj.delete()
             messages.success(request, "Your password has been reset. You can now log in.")
             return redirect('login')
             
     return render(request, 'reset.html', {'token': token})
+
+@login_required
+def user_profile(request, email):
+    user = get_object_or_404(User, email=email)
+    
+    posts_count = user.post_set.count() if hasattr(user, 'post_set') else 0
+
+    context = {    
+        'user_profile': user,
+        'posts_count': posts_count,
+    }
+
+    return render(request, 'user_profile.html', context)
+
+
+from django.core.mail import send_mail
+
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message_content = request.POST.get("message")
+        
+        full_message = f"Message from {name} ({email}):\n\n{message_content}"
+        
+        try:
+            send_mail(
+                subject,                             # Email subject
+                full_message,                        # Email body/message
+                "no-reply@gnnassistant.com",         # From email address
+                ["contact@gnnassistant.com"],        # Recipient list (adjust accordingly)
+            )
+            messages.success(request, "Thank you for your message. We will get back to you soon.")
+        except Exception as e:
+            messages.error(request, "There was an error sending your message. Please try again later.")
+        
+        return redirect("contact")
+    
+    return render(request, "contact.html")
