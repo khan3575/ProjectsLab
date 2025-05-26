@@ -137,16 +137,46 @@ def reset_password(request, token):
 
 @login_required
 def user_profile(request, email):
-    user = get_object_or_404(User, email=email)
+    current_user = get_current_user(request)
     
-    posts_count = user.post_set.count() if hasattr(user, 'post_set') else 0
-
-    context = {    
-        'user_profile': user,
-        'posts_count': posts_count,
+    if not current_user:
+        messages.warning(request, 'Please log in to view your profile.')
+        return redirect('login')
+    
+    if request.method == 'POST':
+        # Handle profile updates
+        try:
+            current_user.firstName = request.POST.get('first_name', '').strip()
+            current_user.lastName = request.POST.get('last_name', '').strip()
+            current_user.phone = request.POST.get('phone', '').strip()
+            
+            # Update address if provided
+            city = request.POST.get('city', '').strip()
+            state = request.POST.get('state', '').strip()
+            country = request.POST.get('country', '').strip()
+            zip_code = request.POST.get('zip', '').strip()
+            
+            if city and state and country:
+                address, created = Address.objects.get_or_create(
+                    city=city,
+                    state=state,
+                    country=country,
+                    zip_code=zip_code
+                )
+                current_user.address = address
+            
+            current_user.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('profile')
+            
+        except Exception as e:
+            messages.error(request, f'Error updating profile: {str(e)}')
+    
+    context = {
+        'user_profile': current_user,
+        'current_user': current_user,
     }
-
-    return render(request, 'user_profile.html', context)
+    return render(request, 'profile.html', context)
 
 
 from django.core.mail import send_mail
@@ -174,3 +204,19 @@ def contact(request):
         return redirect("contact")
     
     return render(request, "contact.html")
+
+def get_current_user(request):
+    user_id = request.session.get('user_id')
+    if user_id:
+        try:
+            return User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return None
+    return None
+
+def logout(request):
+    current_user = get_current_user(request)
+    if current_user:
+        request.session.flush()
+        messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')

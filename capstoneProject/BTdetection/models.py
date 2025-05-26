@@ -36,3 +36,15 @@ class PasswordResetToken(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.token}"
+    
+
+class scan(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    fileName = models.CharField(max_length=255)
+    upload_date = models.DateField()
+
+class prediction(models.Model):
+    scan_id = models.ForeignKey(scan, on_delete=models.CASCADE)
+    result_data = models.FloatField()
+    confidence = models.FloatField()
+    predicted_at = models.DateField()

@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #00ffff;
+  font-size: 1.8em;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: #e0e0e0;
+  font-size: 1em;
+}
+
+form input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #00ffff;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: #00ffff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #00cccc;
+}
+
+.message {
+  margin-bottom: 10px;
+  font-size: 0.95em;
+}

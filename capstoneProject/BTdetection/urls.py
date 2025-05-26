@@ -11,7 +11,8 @@ urlpatterns = [
     path('', views.home , name='home'),
     path('forgot_password/', views.forgot_password , name='forgot_password'),
     path('reset/<str:token>/', views.reset_password, name='reset-password'),
-    path('profile/<str:email>/', views.user_profile, name='user_profile'),
-    path('contact/', views.contact, name='contact'), 
+    path('profile/', views.user_profile, name='user_profile'),
+    path('contact/', views.contact, name='contact'),
+    path('logout/', views.logout , name='logout' )
 
 ]
