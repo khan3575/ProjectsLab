@@ -1,13 +1,26 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
-from .models import Address, User, PasswordResetToken
+from .models import Address, User, PasswordResetToken,scan
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.contrib import messages
+from functools import wraps
+from django.shortcuts import redirect
+from .models import scan,prediction
+
+
+
+def custom_login_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.session.get('user_id'):
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 def login(request):
     #Rendering the log in page
@@ -19,6 +32,7 @@ def login(request):
             user = User.objects.get(email=email)
             #if check_password(password, user.password):
             if(password == user.password):
+                request.session['user_id'] = user.id 
                 print("Password is correct")
                 return redirect('home')  
             else:
@@ -77,17 +91,49 @@ def register(request):
 
 def about(request):
     #Rendering the about page
-    return render(request, 'about.html')
+    return render(request, 'about.html',{
+        'current_user': get_current_user(request)
+    })
 
+@custom_login_required
 def upload(request):
-    #Rendering the upload page
+    if request.method == 'POST' and request.FILES.get('file'):
+        file = request.FILES['file']
+
+        # Check file extension
+        if not (file.name.endswith('.nii') or file.name.endswith('.nii.gz')):
+            messages.error(request, "Only .nii or .nii.gz files are allowed.")
+            return redirect('upload')
+
+        # Get the currently logged-in user
+        current_user = get_current_user(request)
+        if not current_user:
+            messages.error(request, "Please log in to upload scans.")
+            return redirect('login')
+
+        # Save the scan
+        scan_instance = scan.objects.create(
+            user_id=current_user,
+            fileName=file.name,
+            scan_file=file
+        )
+        messages.success(request, "Scan uploaded successfully!")
+        return redirect('upload')
+
     return render(request, 'upload.html')
+
+@custom_login_required
 def history(request):
     #Rendering the history page
-    return render(request, 'history.html')
+    return render(request, 'history.html',{'current_user': get_current_user(request) })
+
+
 def home(request):
-    #Rendering the home page
-    return render(request, 'home.html')
+    return render(request, 'home.html', {
+        'current_user': get_current_user(request)
+    })
+
+
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -134,47 +180,56 @@ def reset_password(request, token):
             return redirect('login')
             
     return render(request, 'reset.html', {'token': token})
-
-@login_required
-def user_profile(request, email):
+@custom_login_required
+def profile(request):
+    # 1. Fetch the current user from session
     current_user = get_current_user(request)
-    
     if not current_user:
         messages.warning(request, 'Please log in to view your profile.')
         return redirect('login')
-    
+
+    # 2. Handle profile-update form
     if request.method == 'POST':
-        # Handle profile updates
         try:
             current_user.firstName = request.POST.get('first_name', '').strip()
-            current_user.lastName = request.POST.get('last_name', '').strip()
-            current_user.phone = request.POST.get('phone', '').strip()
-            
-            # Update address if provided
-            city = request.POST.get('city', '').strip()
-            state = request.POST.get('state', '').strip()
-            country = request.POST.get('country', '').strip()
+            current_user.lastName  = request.POST.get('last_name', '').strip()
+            current_user.phone     = request.POST.get('phone', '').strip()
+
+            # Update or create address
+            city     = request.POST.get('city', '').strip()
+            state    = request.POST.get('state', '').strip()
+            country  = request.POST.get('country', '').strip()
             zip_code = request.POST.get('zip', '').strip()
-            
+
             if city and state and country:
-                address, created = Address.objects.get_or_create(
+                address, _ = Address.objects.get_or_create(
                     city=city,
                     state=state,
                     country=country,
                     zip_code=zip_code
                 )
                 current_user.address = address
-            
+
             current_user.save()
             messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
-            
         except Exception as e:
-            messages.error(request, f'Error updating profile: {str(e)}')
-    
+            messages.error(request, f'Error updating profile: {e}')
+
+    # 3. Compute statistics
+    user_scans        = scan.objects.filter(user_id=current_user)
+    user_scans = scan.objects.filter(user_id=request.user)
+    successful_scans = prediction.objects.filter(scan_id__in=user_scans, result='success').count()
+    total_uploads     = user_scans.count()
+    pending_results   = user_scans.filter(status='pending').count()
+
+    # 4. Render the template
     context = {
-        'user_profile': current_user,
-        'current_user': current_user,
+        'user_profile':     current_user,
+        'current_user':     current_user,
+        'total_uploads':    total_uploads,
+        'successful_scans': successful_scans,
+        'pending_results':  pending_results,
     }
     return render(request, 'profile.html', context)
 
@@ -220,3 +275,4 @@ def logout(request):
         request.session.flush()
         messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
+

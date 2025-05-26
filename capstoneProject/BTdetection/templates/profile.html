@@ -2,219 +2,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile - GNN Brain Tumor Detection</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>User Profile – GNN Brain Tumor Detection</title>
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'images/logo.png' %}" alt="Logo">
-                </a>
-                <h2>TumorFinder</h2>
-            </div>
-            <nav>
-                <ul class="nav-buttons">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'upload' %}">Upload</a></li>
-                    <li><a href="{% url 'history' %}">History</a></li>
-                    <li><a href="{% url 'profile' %}" class="active">Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-            </nav>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" alt="TumorFinder Logo">
+        </a>
+        <h2>TumorFinder</h2>
+      </div>
+      <nav>
+        <ul class="nav-buttons">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'upload' %}">Upload</a></li>
+          <li><a href="{% url 'history' %}">History</a></li>
+          <li><a href="{% url 'profile' %}" class="active">Profile</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="profile-main">
+    <div class="profile-container">
+
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <img src="{% static 'images/default-avatar.png' %}" alt="Profile Picture">
         </div>
-    </header>
+        <div class="profile-info">
+          <h1>{{ user_profile.firstName }} {{ user_profile.lastName }}</h1>
+          <p class="profile-email">{{ user_profile.email }}</p>
+          <p class="member-since">Member since {{ user_profile.created_at|date:"F Y" }}</p>
+        </div>
+      </div>
 
-    <!-- Main Content -->
-    <main class="profile-main">
-        <div class="profile-container">
-            <div class="profile-header">
-                <div class="profile-avatar">
-                    <img src="{% static 'images/default-avatar.png' %}" alt="Profile Picture">
-                </div>
-                <div class="profile-info">
-                    <h1>{{ user_profile.firstName }} {{ user_profile.lastName }}</h1>
-                    <p class="profile-email">{{ user_profile.email }}</p>
-                    <p class="member-since">Member since {{ user_profile.created_at|date:"F Y" }}</p>
-                </div>
+      <!-- Flash Messages -->
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Tabs -->
+      <div class="profile-tabs">
+        <button class="tab-button active" onclick="openTab(event,'personal-info')">Personal Info</button>
+        <button class="tab-button" onclick="openTab(event,'security')">Security</button>
+        <button class="tab-button" onclick="openTab(event,'statistics')">Statistics</button>
+      </div>
+
+      <!-- Personal Info Tab -->
+      <div id="personal-info" class="tab-content active">
+        <div class="profile-card">
+          <h2>Personal Information</h2>
+          <form method="POST" action="{% url 'profile' %}" class="profile-form">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name"
+                       value="{{ user_profile.firstName }}" required>
+              </div>
+              <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name"
+                       value="{{ user_profile.lastName }}" required>
+              </div>
             </div>
 
-            <!-- Messages -->
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"
+                       value="{{ user_profile.email }}" readonly>
+                <small>Email cannot be changed</small>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone"
+                       value="{{ user_profile.phone }}" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nid">National ID</label>
+                <input type="text" id="nid" name="nid"
+                       value="{{ user_profile.nid }}" readonly>
+                <small>National ID cannot be changed</small>
+              </div>
+              <div class="form-group">
+                <label for="birth_date">Birth Date</label>
+                <input type="date" id="birth_date" name="birth_date"
+                       value="{{ user_profile.birthDate|date:'Y-m-d' }}" readonly>
+                <small>Birth date cannot be changed</small>
+              </div>
+            </div>
+
+            {% if user_profile.address %}
+            <h3>Address Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city"
+                       value="{{ user_profile.address.city }}">
+              </div>
+              <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state"
+                       value="{{ user_profile.address.state }}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country"
+                       value="{{ user_profile.address.country }}">
+              </div>
+              <div class="form-group">
+                <label for="zip">ZIP Code</label>
+                <input type="text" id="zip" name="zip"
+                       value="{{ user_profile.address.zip_code }}">
+              </div>
+            </div>
             {% endif %}
 
-            <!-- Profile Tabs -->
-            <div class="profile-tabs">
-                <button class="tab-button active" onclick="openTab(event, 'personal-info')">Personal Information</button>
-                <button class="tab-button" onclick="openTab(event, 'security')">Security</button>
-                <button class="tab-button" onclick="openTab(event, 'statistics')">Statistics</button>
-            </div>
-
-            <!-- Personal Information Tab -->
-            <div id="personal-info" class="tab-content active">
-                <div class="profile-card">
-                    <h2>Personal Information</h2>
-                    <form method="POST" class="profile-form">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="first_name">First Name</label>
-                                <input type="text" id="first_name" name="first_name" 
-                                       value="{{ user_profile.firstName }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="last_name">Last Name</label>
-                                <input type="text" id="last_name" name="last_name" 
-                                       value="{{ user_profile.lastName }}" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" 
-                                       value="{{ user_profile.email }}" readonly>
-                                <small>Email cannot be changed</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="tel" id="phone" name="phone" 
-                                       value="{{ user_profile.phone }}" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nid">National ID</label>
-                                <input type="text" id="nid" name="nid" 
-                                       value="{{ user_profile.nid }}" readonly>
-                                <small>National ID cannot be changed</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="birth_date">Birth Date</label>
-                                <input type="date" id="birth_date" name="birth_date" 
-                                       value="{{ user_profile.birthDate|date:'Y-m-d' }}" readonly>
-                                <small>Birth date cannot be changed</small>
-                            </div>
-                        </div>
-
-                        <!-- Address Information -->
-                        {% if user_profile.address %}
-                        <h3>Address Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" id="city" name="city" 
-                                       value="{{ user_profile.address.city }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="state">State</label>
-                                <input type="text" id="state" name="state" 
-                                       value="{{ user_profile.address.state }}">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="country">Country</label>
-                                <input type="text" id="country" name="country" 
-                                       value="{{ user_profile.address.country }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="zip">ZIP Code</label>
-                                <input type="text" id="zip" name="zip" 
-                                       value="{{ user_profile.address.zip_code }}">
-                            </div>
-                        </div>
-                        {% endif %}
-
-                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Security Tab -->
-            <div id="security" class="tab-content">
-                <div class="profile-card">
-                    <h2>Security Settings</h2>
-                    <div class="security-item">
-                        <h3>Change Password</h3>
-                        <p>Keep your account secure with a strong password</p>
-                        <a href="{% url 'forgot_password' %}" class="btn btn-outline">Change Password</a>
-                    </div>
-                    <div class="security-item">
-                        <h3>Account Activity</h3>
-                        <p>Last login: {{ user_profile.last_login|date:"F d, Y g:i A"|default:"Never" }}</p>
-                        <p>Account created: {{ user_profile.created_at|date:"F d, Y" }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Statistics Tab -->
-            <div id="statistics" class="tab-content">
-                <div class="profile-card">
-                    <h2>Your Statistics</h2>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <h3>0</h3>
-                            <p>Total Uploads</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>0</h3>
-                            <p>Successful Scans</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>0</h3>
-                            <p>Pending Results</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3>{{ user_profile.created_at|timesince }}</h3>
-                            <p>Member For</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+          </form>
         </div>
-    </main>
+      </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
-    </footer>
+      <!-- Security Tab -->
+      <div id="security" class="tab-content">
+        <div class="profile-card">
+          <h2>Security Settings</h2>
+          <div class="security-item">
+            <h3>Change Password</h3>
+            <p>Keep your account secure.</p>
+            <a href="{% url 'forgot_password' %}" class="btn btn-outline">Change Password</a>
+          </div>
+          <div class="security-item">
+            <h3>Account Activity</h3>
+            <p>Last login: {{ user_profile.last_login|date:"F d, Y g:i A"|default:"Never" }}</p>
+            <p>Account created: {{ user_profile.created_at|date:"F d, Y" }}</p>
+          </div>
+        </div>
+      </div>
 
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            
-            // Hide all tab content
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            
-            // Remove active class from all tab buttons
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            
-            // Show the selected tab and mark button as active
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
-    </script>
+      <!-- Statistics Tab -->
+      <div id="statistics" class="tab-content">
+        <div class="profile-card">
+          <h2>Your Statistics</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <h3>{{ user_profile.scans.count }}</h3>
+              <p>Total Uploads</p>
+            </div>
+            <div class="stat-item">
+              <h3>{{ user_profile.scans.filter(scan__result='success').count }}</h3>
+              <p>Successful Scans</p>
+            </div>
+            <div class="stat-item">
+              <h3>{{ user_profile.scans.filter(scan__status='pending').count }}</h3>
+              <p>Pending Results</p>
+            </div>
+            <div class="stat-item">
+              <h3>{{ user_profile.created_at|timesince }}</h3>
+              <p>Member For</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 GNN Brain Tumor Detection. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function openTab(evt, tabName) {
+      let tabcontent = document.getElementsByClassName("tab-content");
+      let tablinks   = document.getElementsByClassName("tab-button");
+
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+      }
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+  </script>
 </body>
 </html>

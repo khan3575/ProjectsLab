@@ -11,11 +11,12 @@
   <section class="card">
     <h1>Upload MRI Image</h1>
     <p>Select an MRI image (.ni) to begin tumor detection.</p>
-    <form>
-      <input type="file" accept=".ni">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="file" accept=".nii,.nii.gz" required>
       <button type="submit">Upload & Analyze</button>
     </form>
-    <a href="{% url 'home'}" class="link">← Back to Home</a>
+    <a href="{% url 'home' %}" class="link">← Back to Home</a>
   </section>
 </body>
 </html>

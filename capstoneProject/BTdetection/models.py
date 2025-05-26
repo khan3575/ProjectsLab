@@ -41,10 +41,14 @@ class PasswordResetToken(models.Model):
 class scan(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     fileName = models.CharField(max_length=255)
-    upload_date = models.DateField()
+    scan_file = models.FileField(upload_to='scans/', default='default.nii')
 
 class prediction(models.Model):
-    scan_id = models.ForeignKey(scan, on_delete=models.CASCADE)
+    scan_id = models.ForeignKey(scan, on_delete=models.CASCADE, related_name='prediction')
     result_data = models.FloatField()
     confidence = models.FloatField()
     predicted_at = models.DateField()
+    result = models.CharField(max_length=20)  # Add this line
+
+    def __str__(self):
+        return f"{self.scan_id} - {self.result}"

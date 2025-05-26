@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GNN Brain Tumor Detection - Home</title>
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
   <!-- Header Fragment -->
@@ -17,7 +17,8 @@
       <!-- Logo Section -->
       <div class="logo">
         <a href="{% url 'home' %}">
-          <img src="{% static '/templates/iimages/logo.png' %}" alt="GNN Brain Tumor Detection Logo">
+          <!-- Fixed static path for logo -->
+          <img src="{% static 'images/logo.png' %}" alt="TumorFinder Logo" />
         </a>
         <h2>TumorFinder</h2>
       </div>
@@ -28,12 +29,12 @@
           <li><a href="{% url 'upload' %}">Upload</a></li>
           <li><a href="{% url 'history' %}">History</a></li>
           {% if current_user %}
-              <li><a href="{% url 'profile' %}">Profile</a></li>
-              <li><a href="{% url 'logout_view' %}">Logout</a></li>
-              <li class="user-greeting">Hi, {{ current_user.firstName }}!</li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <li class="user-greeting">Hi, {{ current_user.firstName }}!</li>
           {% else %}
-              <li><a href="{% url 'login' %}">Login</a></li>
-              <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
           {% endif %}
           <li><a href="{% url 'about' %}">About</a></li>
           <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -41,8 +42,8 @@
       </nav>
     </div>
   </header>
-  
-  <!-- Hero Section with Animated Background -->
+
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-overlay">
       <h1 class="hero-title">GNN Brain Tumor Detection</h1>
@@ -54,23 +55,8 @@
       {% endif %}
     </div>
   </section>
-  
-  <!-- Welcome Message for Logged In Users -->
-  {% if current_user %}
-  <section class="welcome-section">
-    <div class="welcome-container">
-      <h2>Welcome back, {{ current_user.firstName }} {{ current_user.lastName }}!</h2>
-      <p>Ready to analyze your MRI scans with our advanced GNN technology?</p>
-      <div class="quick-actions">
-        <a href="{% url 'upload' %}" class="btn btn-primary">Upload New Scan</a>
-        <a href="{% url 'history' %}" class="btn btn-secondary">View History</a>
-        <a href="{% url 'profile' %}" class="btn btn-outline">Manage Profile</a>
-      </div>
-    </div>
-  </section>
-  {% endif %}
-  
-  <!-- About Section with Fade-In Animations -->
+
+  <!-- About Section -->
   <section id="about" class="description">
     <article class="fade-in">
       <h2>What is a Graph Neural Network (GNN)?</h2>
@@ -93,24 +79,23 @@
       </ul>
     </article>
   </section>
-  
+
   <!-- Footer -->
   <footer>
     <p>&copy; 2025 GNN Brain Tumor Detection. All Rights Reserved.</p>
   </footer>
-  
+
   <!-- JavaScript for Smooth Scroll -->
   <script>
     function scrollToSection(sectionId) {
       document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     }
-    
-    // Add fade-in animation on scroll
+
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -119,7 +104,7 @@
         }
       });
     }, observerOptions);
-    
+
     document.querySelectorAll('.fade-in').forEach(el => {
       observer.observe(el);
     });
