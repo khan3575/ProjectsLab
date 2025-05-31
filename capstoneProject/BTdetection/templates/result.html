@@ -1,0 +1,475 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis Results - GNN Tumor Detection</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .results-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .result-header h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+    }
+
+    .result-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 40px;
+      border-radius: 50px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .status-positive {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+    }
+
+    .status-negative {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+
+    .confidence-bar {
+      width: 100%;
+      height: 30px;
+      background: #ecf0f1;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3498db, #2980b9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      transition: width 1s ease;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .detail-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      border-left: 5px solid #3498db;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .detail-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .detail-card h3 {
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .feature-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #dee2e6;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .feature-value {
+      color: #2c3e50;
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+      color: white;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .technical-details {
+      background: #2c3e50;
+      color: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+
+    .technical-details h3 {
+      margin-top: 0;
+      color: #ecf0f1;
+    }
+
+    .scan-info {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+
+    .scan-info h3 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .scan-info p {
+      margin: 5px 0;
+    }
+
+    .recommendations {
+      background: #e8f5e8;
+      border: 1px solid #c3e6c3;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .recommendations ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .recommendations li {
+      margin: 5px 0;
+    }
+
+    .disclaimer {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 40px;
+      color: #e74c3c;
+    }
+
+    .error-state h2 {
+      color: #e74c3c;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .results-container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .result-header h1 {
+        font-size: 2rem;
+      }
+
+      .result-status {
+        font-size: 1.2rem;
+        padding: 15px 25px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      
+      .action-buttons {
+        display: none;
+      }
+      
+      .results-container {
+        box-shadow: none;
+        background: white;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="results-container">
+    <!-- Header -->
+    <div class="result-header">
+      <h1>🧠 Brain MRI Analysis Results</h1>
+      {% if current_user %}
+        <p>Analysis for: <strong>{{ current_user.firstName }} {{ current_user.lastName }}</strong></p>
+      {% endif %}
+    </div>
+
+    {% if prediction.success %}
+      <!-- Scan Information -->
+      <div class="scan-info">
+        <h3>📊 Scan Information</h3>
+        <p><strong>Scan ID:</strong> #{{ scan_id|default:"AUTO-001" }}</p>
+        <p><strong>Analysis Method:</strong> Graph Neural Network (GNN)</p>
+        <p><strong>Processed:</strong> 4 MRI Modalities (FLAIR, T1, T1ce, T2)</p>
+      </div>
+
+      <!-- Main Result -->
+      <div class="result-header">
+        <div class="result-status {% if 'Tumor Detected' in prediction.prediction %}status-positive{% else %}status-negative{% endif %}">
+          {% if 'Tumor Detected' in prediction.prediction %}
+            <span>⚠️</span>
+          {% else %}
+            <span>✅</span>
+          {% endif %}
+          {{ prediction.prediction }}
+        </div>
+        
+        <div class="confidence-bar">
+          <div class="confidence-fill" id="confidenceBar" style="width: 0%;">
+            Confidence: {{ prediction.confidence }}%
+          </div>
+        </div>
+        
+        <p><strong>Tumor Probability:</strong> {{ prediction.tumor_probability }}%</p>
+      </div>
+
+      <!-- Details Grid -->
+      <div class="details-grid">
+        <!-- MRI Features -->
+        <div class="detail-card">
+          <h3>🧬 MRI Features</h3>
+          <ul class="feature-list">
+            {% for key, value in prediction.features.items %}
+              <li>
+                <span class="feature-label">{{ key|title|cut:"_" }}:</span>
+                <span class="feature-value">{{ value }}</span>
+              </li>
+            {% empty %}
+              <li>
+                <span class="feature-label">Brain Regions:</span>
+                <span class="feature-value">{{ prediction.brain_regions|default:"150" }}</span>
+              </li>
+              <li>
+                <span class="feature-label">Processing Time:</span>
+                <span class="feature-value">{{ prediction.processing_time|default:"24.5" }}s</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Technical Analysis -->
+        <div class="detail-card">
+          <h3>⚙️ Technical Details</h3>
+          <ul class="feature-list">
+            {% if prediction.technical_details.graph_nodes %}
+              <li>
+                <span class="feature-label">Brain Regions:</span>
+                <span class="feature-value">{{ prediction.technical_details.graph_nodes }}</span>
+              </li>
+            {% endif %}
+            {% if prediction.technical_details.graph_edges %}
+              <li>
+                <span class="feature-label">Neural Connections:</span>
+                <span class="feature-value">{{ prediction.technical_details.graph_edges }}</span>
+              </li>
+            {% endif %}
+            {% if prediction.technical_details.avg_node_prob %}
+              <li>
+                <span class="feature-label">Avg Node Probability:</span>
+                <span class="feature-value">{{ prediction.technical_details.avg_node_prob }}%</span>
+              </li>
+            {% endif %}
+            <li>
+              <span class="feature-label">Model:</span>
+              <span class="feature-value">{{ prediction.technical_details.processing_method|default:"GNN-v2.1" }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Analysis Summary -->
+      {% if prediction.message %}
+      <div class="technical-details">
+        <h3>📋 Analysis Summary</h3>
+        <p>{{ prediction.message }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Recommendations -->
+      <div class="detail-card recommendations">
+        <h3>💡 Recommendations</h3>
+        {% if 'Tumor Detected' in prediction.prediction %}
+          <p><strong>⚠️ Tumor detected in brain MRI analysis.</strong></p>
+          <ul>
+            <li>Consult with a neurologist or oncologist immediately</li>
+            <li>Additional imaging studies may be required</li>
+            <li>Consider biopsy for definitive diagnosis</li>
+            <li>Discuss treatment options with medical professionals</li>
+          </ul>
+        {% else %}
+          <p><strong>✅ No tumor detected in current analysis.</strong></p>
+          <ul>
+            <li>Regular follow-up scans as recommended by physician</li>
+            <li>Continue routine neurological check-ups</li>
+            <li>Monitor for any new symptoms</li>
+            <li>Maintain healthy lifestyle habits</li>
+          </ul>
+        {% endif %}
+        
+        <div class="disclaimer">
+          <small><strong>⚠️ Important:</strong> This analysis is for research purposes only and should not replace professional medical diagnosis. Always consult with qualified healthcare professionals for medical decisions.</small>
+        </div>
+      </div>
+
+    {% else %}
+      <!-- Error State -->
+      <div class="error-state">
+        <h2>❌ Analysis Failed</h2>
+        <p>{{ prediction.message|default:"An error occurred during analysis. Please try again." }}</p>
+        
+        <div class="action-buttons">
+          <a href="{% url 'upload' %}" class="btn btn-primary">
+            <span>🔄</span>
+            Try Again
+          </a>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    {% if prediction.success %}
+    <div class="action-buttons">
+      <a href="{% url 'upload' %}" class="btn btn-primary">
+        <span>🔄</span>
+        New Analysis
+      </a>
+      
+      <a href="{% url 'history' %}" class="btn btn-secondary">
+        <span>📊</span>
+        View History
+      </a>
+      
+      <button onclick="window.print()" class="btn btn-success">
+        <span>🖨️</span>
+        Print Results
+      </button>
+      
+      <a href="{% url 'home' %}" class="btn btn-secondary">
+        <span>🏠</span>
+        Back to Home
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate confidence bar
+      const confidenceBar = document.getElementById('confidenceBar');
+      if (confidenceBar) {
+        const targetWidth = '{{ prediction.confidence }}%';
+        setTimeout(function() {
+          confidenceBar.style.width = targetWidth;
+        }, 500);
+      }
+    });
+
+    // Print functionality
+    window.addEventListener('beforeprint', function() {
+      document.body.style.background = 'white';
+    });
+
+    window.addEventListener('afterprint', function() {
+      document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    });
+  </script>
+</body>
+</html>

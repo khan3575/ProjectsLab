@@ -15,6 +15,10 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -26,6 +30,7 @@ SECRET_KEY = 'django-insecure-h1x06&v3x970(3=+nhz=1s%#^2v)gy4l=@xj!bugrv263m-5i2
 DEBUG = True
 
 ALLOWED_HOSTS = []
+API_URL = "http://127.0.0.1:5000/predict"
 
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -121,6 +126,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+# settings.py
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -134,6 +140,34 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 LOGIN_URL = '/login/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
+
+
+
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+# Create media directory
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}

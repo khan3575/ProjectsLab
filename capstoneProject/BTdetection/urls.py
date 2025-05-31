@@ -14,5 +14,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('contact/', views.contact, name='contact'),
     path('logout/', views.logout , name='logout' ),
+    path('predict/', views.predict_view, name='predict'),
+    path('results/', views.results, name='results'),
   
 ]

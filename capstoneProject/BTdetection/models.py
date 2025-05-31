@@ -44,11 +44,11 @@ class scan(models.Model):
     scan_file = models.FileField(upload_to='scans/', default='default.nii')
 
 class prediction(models.Model):
-    scan_id = models.ForeignKey(scan, on_delete=models.CASCADE, related_name='prediction')
-    result_data = models.FloatField()
-    confidence = models.FloatField()
-    predicted_at = models.DateField()
-    result = models.CharField(max_length=20)  # Add this line
+       scan_id = models.ForeignKey(scan, on_delete=models.CASCADE, related_name='prediction')
+       result_data = models.FloatField()
+       confidence = models.FloatField()
+       predicted_at = models.DateField()
+       result = models.CharField(max_length=20, default='Pending')  # Default specified here
 
-    def __str__(self):
-        return f"{self.scan_id} - {self.result}"
+       def __str__(self):
+           return f"{self.scan_id} - {self.result}"
